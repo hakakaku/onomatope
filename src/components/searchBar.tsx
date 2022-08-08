@@ -1,0 +1,128 @@
+import { KEY, FUN, CHAR, isFUN, isDEL, isCHAR } from "../utils/kanas";
+import KanaBoard from "./kanaBoard";
+import SearchBarIcon from "./searchBarIcon";
+import SearchBarInput from "./searchBarInput";
+import { kanas } from "../utils/kanas";
+import { useState, useEffect, useRef, FC } from "react";
+
+const SearchBar: FC = () => {
+	// TODO: fix focus bugs.
+
+	const [searchStatus, setSearchStatus] = useState<
+		"unsearched" | "searching" | "resolved"
+	>("resolved");
+
+	const [inputData, setInputData] = useState<string[]>([]);
+
+	useEffect(() => {
+		if (inputData.length === 0) setSearchStatus("unsearched");
+		else setSearchStatus("searching");
+	}, [inputData.length]);
+
+	// Handle kana keyboard expanded state toggle.
+	const [isExpanded, setIsExpanded] = useState(false);
+
+	function handleExpand() {
+		setIsExpanded(true);
+	}
+
+	function handleUnexpand() {
+		setIsExpanded(false);
+	}
+
+	// Update focus status.
+	const inputRef = useRef<HTMLInputElement | null>(null);
+	useEffect(() => {
+		function focusInput() {
+			inputRef.current?.focus();
+		}
+		function blurInput() {
+			inputRef.current?.blur();
+		}
+
+		function preventDefaultFocusAndBlur() {
+			isExpanded ? focusInput() : blurInput();
+		}
+		preventDefaultFocusAndBlur();
+	}, [isExpanded]);
+
+	// Handle kana keyboard input events.
+
+	const [activeFunctionKey, setActiveFunctionKey] = useState<FUN | null>(null);
+
+	function handleKeyPress(e: React.MouseEvent) {
+		function inputPush(key: CHAR) {
+			if (activeFunctionKey) {
+				switch (activeFunctionKey) {
+					case 0x5c0f: //LowerCase
+						setInputData([...inputData, String.fromCodePoint(key - 1)]);
+						break;
+
+					case 0x309c: //DevoiceCase
+						setInputData([...inputData, String.fromCodePoint(key + 2)]);
+						break;
+
+					case 0x309b: //VoiceCase
+						setInputData([...inputData, String.fromCodePoint(key + 1)]);
+						break;
+				}
+			} else setInputData([...inputData, String.fromCodePoint(key)]);
+		}
+
+		function inputPop() {
+			let currentData = [...inputData];
+			currentData.pop();
+			setInputData(currentData);
+		}
+		const key: KEY | undefined = kanas
+			.find((kanaRow) =>
+				kanaRow.find((kana) => `${kana}` === e.currentTarget.id)
+			)
+			?.find((kana) => `${kana}` === e.currentTarget.id);
+		if (key) {
+			if (isFUN(key)) {
+				if (activeFunctionKey === key) setActiveFunctionKey(null);
+				else {
+					setActiveFunctionKey(key);
+				}
+			} else if (isDEL(key)) {
+				inputPop();
+				setActiveFunctionKey(null);
+			} else if (isCHAR(key)) {
+				inputPush(key);
+				setActiveFunctionKey(null);
+			}
+		}
+	}
+
+	return (
+		<div className="flex w-full justify-center font-serif">
+			<div className="flex flex-1 px-3 mt-5 max-w-xl">
+				<div
+					className="relative w-full"
+					onMouseDown={(e) => {
+						e.preventDefault(); //prevent from causing default blur event
+						handleExpand();
+					}}
+				>
+					<SearchBarIcon searchStatus={searchStatus} />
+					{isExpanded && (
+						<KanaBoard
+							handleKeyPress={handleKeyPress}
+							kanas={kanas}
+							activeFunctionKeyValue={activeFunctionKey}
+						/>
+					)}
+					<SearchBarInput
+						ref={inputRef}
+						inputData={inputData}
+						handleUnexpand={handleUnexpand}
+						isExpanded={isExpanded}
+					/>
+				</div>
+			</div>
+		</div>
+	);
+};
+
+export default SearchBar;

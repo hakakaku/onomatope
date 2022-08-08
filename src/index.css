@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+	font-family: serif;
+}
+
+/* font-weight: 200 | 400 | 900 */
