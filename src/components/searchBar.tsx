@@ -3,21 +3,31 @@ import KanaBoard from "./kanaBoard";
 import SearchBarIcon from "./searchBarIcon";
 import SearchBarInput from "./searchBarInput";
 import { kanas } from "../utils/kanas";
+import { Word } from "../services/words";
 import { useState, useEffect, useRef, FC } from "react";
 
-const SearchBar: FC = () => {
-	// TODO: fix focus bugs.
+interface SearchBarProps {
+	inputData: string[];
+	filtered: Word[];
+	setInputData: React.Dispatch<React.SetStateAction<string[]>>;
+}
 
+const SearchBar: FC<SearchBarProps> = ({
+	inputData,
+	setInputData,
+	filtered,
+}) => {
 	const [searchStatus, setSearchStatus] = useState<
 		"unsearched" | "searching" | "resolved"
 	>("resolved");
 
-	const [inputData, setInputData] = useState<string[]>([]);
-
 	useEffect(() => {
 		if (inputData.length === 0) setSearchStatus("unsearched");
-		else setSearchStatus("searching");
-	}, [inputData.length]);
+		else if (filtered.length === 1) setSearchStatus("resolved");
+		else {
+			setSearchStatus("searching");
+		}
+	}, [inputData.length, filtered.length]);
 
 	// Handle kana keyboard expanded state toggle.
 	const [isExpanded, setIsExpanded] = useState(false);
@@ -96,8 +106,8 @@ const SearchBar: FC = () => {
 	}
 
 	return (
-		<div className="flex w-full justify-center font-serif">
-			<div className="flex flex-1 px-3 mt-5 max-w-xl">
+		<section className="flex mt-5 px-3 justify-center font-serif">
+			<div className="flex flex-1">
 				<div
 					className="relative w-full"
 					onMouseDown={(e) => {
@@ -121,7 +131,7 @@ const SearchBar: FC = () => {
 					/>
 				</div>
 			</div>
-		</div>
+		</section>
 	);
 };
 

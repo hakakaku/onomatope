@@ -10,7 +10,7 @@ interface HeaderProps {
 const Header: FC<HeaderProps> = ({ isThemeDark, handleChangeTheme }) => {
 	return (
 		<>
-			<div className="sticky top-0 z-10 h-14 px-2 py-1 flex flex-row justify-between items-center border-b-1 shadow-md dark:bg-slate-800 dark:shadow-slate-800/40 border-Slate-300">
+			<section className="sticky top-0 z-10 h-14 px-2 py-1 flex flex-row justify-between items-center border-b-1 shadow-md bg-slate-800/90 dark:bg-slate-800/95 dark:shadow-slate-800/40 border-Slate-300">
 				<div className="relative top-1 flex h-10">
 					<svg
 						height="100%"
@@ -37,7 +37,7 @@ const Header: FC<HeaderProps> = ({ isThemeDark, handleChangeTheme }) => {
 				>
 					<img src={isThemeDark ? dark : light} alt="" />
 				</button>
-			</div>
+			</section>
 		</>
 	);
 };
