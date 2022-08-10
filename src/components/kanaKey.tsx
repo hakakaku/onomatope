@@ -13,6 +13,7 @@ import {
 interface KanaKeyProps {
 	kana: KEY;
 	activeFunctionKeyValue: FUN | null;
+	validKanaButtons: string[];
 	handleKeyPress: (e: React.MouseEvent) => void;
 }
 
@@ -20,6 +21,7 @@ const KanaKey: FC<KanaKeyProps> = ({
 	kana,
 	activeFunctionKeyValue,
 	handleKeyPress,
+	validKanaButtons,
 }) => {
 	const renderButtonStyles = (kana: KEY): string => {
 		enum ButtonStyle {
@@ -58,20 +60,29 @@ const KanaKey: FC<KanaKeyProps> = ({
 		);
 	};
 
-	const isButtonDisabled = (kana: KEY): boolean => {
-		if (isCHAR(kana)) {
-			if (activeFunctionKeyValue === 0x5c0f && !isHasLowerCase(kana)) {
-				return true;
-			}
-			if (activeFunctionKeyValue === 0x309c && !isHasDevoiceCase(kana)) {
-				return true;
-			}
-			if (activeFunctionKeyValue === 0x309b && !isHasVoiceCase(kana)) {
-				return true;
-			}
+	const hasComposingKana = (kana: KEY): boolean => {
+		if (activeFunctionKeyValue === 0x5c0f && !isHasLowerCase(kana)) {
 			return false;
 		}
-		return false;
+		if (activeFunctionKeyValue === 0x309c && !isHasDevoiceCase(kana)) {
+			return false;
+		}
+		if (activeFunctionKeyValue === 0x309b && !isHasVoiceCase(kana)) {
+			return false;
+		}
+		return true;
+	};
+
+	const hasNextFilteredKana = (kana: number) => {
+		return validKanaButtons.find((k) => k === String.fromCharCode(kana));
+	};
+
+	const isButtonDisabled = (kana: KEY): boolean => {
+		if (isCHAR(kana)) {
+			return !(hasComposingKana(kana) && hasNextFilteredKana(kana));
+		} else {
+			return false;
+		}
 	};
 
 	return (

@@ -6,6 +6,9 @@ import SearchBar from "./components/searchBar";
 import ResultList from "./components/resultList";
 
 const App: FC = () => {
+	// TODO: handle kana button disable with search result.
+
+	// filter datalist with input.
 	const [inputData, setInputData] = useState<string[]>([]);
 	const datalist = words; // TODO: get data from server.
 	const targetId = kanaToId(inputData.join(""));
@@ -21,7 +24,7 @@ const App: FC = () => {
 	return (
 		<>
 			<div className={isThemeDark ? `dark` : ``}>
-				<div className="select-none flex flex-col min-h-screen bg-cyan-50 dark:bg-slate-900">
+				<div className="select-none flex flex-col min-h-screen bg-cyan-25 dark:bg-slate-900">
 					<Header
 						isThemeDark={isThemeDark}
 						handleChangeTheme={handleChangeTheme}

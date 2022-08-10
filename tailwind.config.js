@@ -26,6 +26,11 @@ module.exports = {
 			animation: {
 				"pulse-fast": "pulse 1.6s cubic-bezier(0.8, 0, 0.2, 1) infinite",
 			},
+			colors: {
+				cyan: {
+					25: "#f7feff",
+				},
+			},
 		},
 	},
 	plugins: [require("@tailwindcss/line-clamp")],

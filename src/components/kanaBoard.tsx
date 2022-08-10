@@ -6,12 +6,14 @@ interface KanaBoardProps {
 	handleKeyPress: (e: React.MouseEvent) => void;
 	kanas: KEY[][];
 	activeFunctionKeyValue: FUN | null;
+	validKanaButtons: string[];
 }
 
 const KanaBoard: FC<KanaBoardProps> = ({
 	handleKeyPress,
 	kanas,
 	activeFunctionKeyValue,
+	validKanaButtons,
 }: KanaBoardProps) => {
 	return (
 		<div className="absolute w-full top-12 pl-16 pr-4 py-2.5 border-t ">
@@ -30,6 +32,7 @@ const KanaBoard: FC<KanaBoardProps> = ({
 								<KanaKey
 									key={kana}
 									kana={kana}
+									validKanaButtons={validKanaButtons}
 									activeFunctionKeyValue={activeFunctionKeyValue}
 									handleKeyPress={handleKeyPress}
 								/>

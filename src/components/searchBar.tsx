@@ -105,6 +105,12 @@ const SearchBar: FC<SearchBarProps> = ({
 		}
 	}
 
+	// filter valid kana buttons
+
+	const validKanaButtons: string[] = filtered.map(
+		(f) => f.word.split("")[inputData.length]
+	);
+
 	return (
 		<section className="flex mt-5 px-3 justify-center font-serif">
 			<div className="flex flex-1">
@@ -121,6 +127,7 @@ const SearchBar: FC<SearchBarProps> = ({
 							handleKeyPress={handleKeyPress}
 							kanas={kanas}
 							activeFunctionKeyValue={activeFunctionKey}
+							validKanaButtons={validKanaButtons}
 						/>
 					)}
 					<SearchBarInput
