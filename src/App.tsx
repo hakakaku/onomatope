@@ -1,25 +1,35 @@
 import "./App.css";
-import { FC, useState } from "react";
-import { words, kanaToId } from "./services/words";
+import { FC, useState, useEffect } from "react";
+import { words } from "./services/words";
 import Header from "./components/header";
 import SearchBar from "./components/searchBar";
 import ResultList from "./components/resultList";
 
 const App: FC = () => {
-	// TODO: handle kana button disable with search result.
-
 	// filter datalist with input.
 	const [inputData, setInputData] = useState<string[]>([]);
 	const datalist = words; // TODO: get data from server.
-	const targetId = kanaToId(inputData.join(""));
-	const reg = new RegExp(`^${targetId}[a-z]*$`, "i");
-	const filtered = datalist.filter((d) => reg.test(d._id));
+	const target = inputData.join("");
+	const reg = new RegExp(`^${target}[\u3040-\u30FF]*$`, "i");
+	const filtered = datalist.filter((d) => reg.test(d.word));
 
 	// toggle light and dark theme.
 	const [isThemeDark, setIsThemeDark] = useState<boolean>(false);
 	const handleChangeTheme = () => {
 		setIsThemeDark(!isThemeDark);
 	};
+
+	const [searchStatus, setSearchStatus] = useState<
+		"unsearched" | "searching" | "resolved"
+	>("resolved");
+
+	useEffect(() => {
+		if (inputData.length === 0) setSearchStatus("unsearched");
+		else if (filtered.length === 1) setSearchStatus("resolved");
+		else {
+			setSearchStatus("searching");
+		}
+	}, [inputData.length, filtered.length]);
 
 	return (
 		<>
@@ -34,8 +44,9 @@ const App: FC = () => {
 							inputData={inputData}
 							setInputData={setInputData}
 							filtered={filtered}
+							searchStatus={searchStatus}
 						/>
-						<ResultList filtered={filtered} />
+						<ResultList filtered={filtered} searchStatus={searchStatus} />
 					</main>
 				</div>
 			</div>

@@ -60,26 +60,43 @@ const KanaKey: FC<KanaKeyProps> = ({
 		);
 	};
 
-	const hasComposingKana = (kana: KEY): boolean => {
-		if (activeFunctionKeyValue === 0x5c0f && !isHasLowerCase(kana)) {
-			return false;
+	const renderButtonSymbol = () => {
+		if (activeFunctionKeyValue === 0x5c0f && isHasLowerCase(kana)) {
+			return kana - 1;
 		}
-		if (activeFunctionKeyValue === 0x309c && !isHasDevoiceCase(kana)) {
-			return false;
+		if (activeFunctionKeyValue === 0x309c && isHasDevoiceCase(kana)) {
+			return kana + 2;
 		}
-		if (activeFunctionKeyValue === 0x309b && !isHasVoiceCase(kana)) {
-			return false;
+		if (activeFunctionKeyValue === 0x309b && isHasVoiceCase(kana)) {
+			return kana + 1;
+		} else {
+			return kana;
 		}
-		return true;
 	};
 
-	const hasNextFilteredKana = (kana: number) => {
-		return validKanaButtons.find((k) => k === String.fromCharCode(kana));
-	};
-
+	// disable invalid kana button according to search results.
 	const isButtonDisabled = (kana: KEY): boolean => {
+		const hasComposingKana = (kana: KEY): boolean => {
+			if (activeFunctionKeyValue === 0x5c0f && !isHasLowerCase(kana)) {
+				return false;
+			}
+			if (activeFunctionKeyValue === 0x309c && !isHasDevoiceCase(kana)) {
+				return false;
+			}
+			if (activeFunctionKeyValue === 0x309b && !isHasVoiceCase(kana)) {
+				return false;
+			}
+			return true;
+		};
+
+		const hasNextFilteredKana = (kana: number) => {
+			return validKanaButtons.find((k) => k === String.fromCharCode(kana));
+		};
+
 		if (isCHAR(kana)) {
-			return !(hasComposingKana(kana) && hasNextFilteredKana(kana));
+			return !(
+				hasComposingKana(kana) && hasNextFilteredKana(renderButtonSymbol())
+			);
 		} else {
 			return false;
 		}
@@ -92,7 +109,7 @@ const KanaKey: FC<KanaKeyProps> = ({
 			onClick={handleKeyPress}
 			disabled={isButtonDisabled(kana)}
 		>
-			{String.fromCodePoint(kana)}
+			{String.fromCodePoint(renderButtonSymbol())}
 		</button>
 	);
 };

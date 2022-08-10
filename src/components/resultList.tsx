@@ -3,14 +3,20 @@ import { Word } from "./../services/words";
 
 interface ResultListProps {
 	filtered: Word[];
+	searchStatus: "unsearched" | "searching" | "resolved";
 }
 
-const ResultList: FC<ResultListProps> = ({ filtered }) => {
+const ResultList: FC<ResultListProps> = ({ filtered, searchStatus }) => {
 	return (
 		<>
 			<section className="px-3 mt-5">
 				{filtered.length !== 0 ? (
-					<ul className="mt-3 divide-y">
+					<ul
+						className={`mt-3 divide-y ${
+							searchStatus === "resolved" &&
+							`rounded-xl ring-2 ring-violet-600 dark:ring-cyan-500 animate-pulse-fast`
+						}`}
+					>
 						{filtered.map((word: Word) => (
 							<li key={word._id} className="p-2">
 								<div className="mx-auto text-fuchsia-800 dark:text-fuchsia-400 font-sans font-semibold text-lg">

@@ -10,25 +10,15 @@ interface SearchBarProps {
 	inputData: string[];
 	filtered: Word[];
 	setInputData: React.Dispatch<React.SetStateAction<string[]>>;
+	searchStatus: "unsearched" | "searching" | "resolved";
 }
 
 const SearchBar: FC<SearchBarProps> = ({
 	inputData,
 	setInputData,
 	filtered,
+	searchStatus,
 }) => {
-	const [searchStatus, setSearchStatus] = useState<
-		"unsearched" | "searching" | "resolved"
-	>("resolved");
-
-	useEffect(() => {
-		if (inputData.length === 0) setSearchStatus("unsearched");
-		else if (filtered.length === 1) setSearchStatus("resolved");
-		else {
-			setSearchStatus("searching");
-		}
-	}, [inputData.length, filtered.length]);
-
 	// Handle kana keyboard expanded state toggle.
 	const [isExpanded, setIsExpanded] = useState(false);
 
@@ -110,6 +100,8 @@ const SearchBar: FC<SearchBarProps> = ({
 	const validKanaButtons: string[] = filtered.map(
 		(f) => f.word.split("")[inputData.length]
 	);
+
+	console.log(validKanaButtons, inputData);
 
 	return (
 		<section className="flex mt-5 px-3 justify-center font-serif">
