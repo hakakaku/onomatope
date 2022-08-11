@@ -32,9 +32,9 @@ const About: FC<AboutProps> = () => {
 					</p>
 					<p className="font-serif font-light leading-relaxed text-justify">
 						よくじつに猫をだいをきいたた。
-						<p className="font-serif font-light leading-relaxed text-justify">
-							みんな思わずと音楽をして壁がちないで。
-						</p>
+					</p>
+					<p className="font-serif font-light leading-relaxed text-justify">
+						みんな思わずと音楽をして壁がちないで。
 					</p>
 					<p className="font-serif font-light leading-relaxed text-justify">
 						子に鳴ったた。

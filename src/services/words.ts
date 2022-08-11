@@ -550,7 +550,7 @@ export const words: Word[] = [
 		word: "とんとん",
 	},
 	{
-		_id: "dondon",
+		_id: "donndonn",
 		word: "どんどん",
 	},
 	{

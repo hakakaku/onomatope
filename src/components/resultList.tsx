@@ -10,14 +10,13 @@ interface ResultListProps {
 const ResultList: FC<ResultListProps> = ({ filtered, searchStatus }) => {
 	return (
 		<>
-			<section className="px-3 mt-5">
+			<section className="px-3">
 				{filtered.length !== 0 ? (
-					<ul className={`mt-3 divide-y`}>
+					<ul className={`mt-4 divide-y`}>
 						{filtered.map((word: Word) => (
-							<Link to={word._id}>
+							<Link key={word._id} to={word._id}>
 								<li
-									key={word._id}
-									className={`px-2 py-4 hover:rounded-xl hover:ring-2 hover:ring-violet-600 dark:hover:ring-cyan-500 ${
+									className={`px-2 py-2 my-2 hover:rounded-xl hover:ring-2 hover:ring-violet-600 dark:hover:ring-cyan-500 ${
 										searchStatus === "resolved" &&
 										`rounded-xl ring-2 ring-violet-600 dark:ring-cyan-500 animate-pulse-fast`
 									}`}

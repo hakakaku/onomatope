@@ -102,7 +102,7 @@ const SearchBar: FC<SearchBarProps> = ({
 	);
 
 	return (
-		<section className="flex mt-5 px-3 justify-center font-serif">
+		<section className="flex mt-6 px-3 justify-center font-serif">
 			<div className="flex flex-1">
 				<div
 					className="relative w-full"

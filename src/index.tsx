@@ -18,7 +18,7 @@ root.render(
 			<Routes>
 				<Route path="/" element={<App />}>
 					<Route path="search" element={<Main />} />
-					<Route path="search/:wordId" element={<Result />} />
+					<Route path="search/:romaji" element={<Result />} />
 					<Route path="about" element={<About />} />
 					<Route path="/" element={<Navigate to="search" replace />} />
 				</Route>

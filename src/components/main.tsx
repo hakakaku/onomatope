@@ -1,7 +1,6 @@
 import { FC, useState, useEffect } from "react";
 import SearchBar from "./searchBar";
 import ResultList from "./resultList";
-import Result from "./result";
 import { words } from "../services/words";
 
 interface MainProps {}
