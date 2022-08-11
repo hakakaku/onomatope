@@ -101,8 +101,6 @@ const SearchBar: FC<SearchBarProps> = ({
 		(f) => f.word.split("")[inputData.length]
 	);
 
-	console.log(validKanaButtons, inputData);
-
 	return (
 		<section className="flex mt-5 px-3 justify-center font-serif">
 			<div className="flex flex-1">
