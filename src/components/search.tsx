@@ -1,17 +1,41 @@
 import { FC, useState, useEffect } from "react";
 import SearchBar from "./searchBar";
 import ResultList from "./resultList";
-import { words } from "../services/words";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../firebase.config";
 
 interface SearchPops {}
 
+export interface Word {
+	id: string;
+	romaji: string;
+	hiragana: string;
+	meaning: string;
+	examples: string[];
+}
+
 const Search: FC<SearchPops> = () => {
+	const [wordlist, setWordList] = useState<Word[]>([]);
+
+	useEffect(() => {
+		// query data from firebase.
+		const getWords = async () => {
+			const wordsCollectionRef = collection(db, "words");
+			const data = await getDocs(wordsCollectionRef);
+			const words = data.docs.map((doc) => ({
+				...doc.data(),
+				id: doc.id,
+			})) as Word[];
+			setWordList(words);
+		};
+		getWords();
+	}, []);
+
 	// filter datalist with input.
 	const [inputData, setInputData] = useState<string[]>([]);
-	const datalist = words; // TODO: get data from server.
 	const target = inputData.join("");
 	const reg = new RegExp(`^${target}[\u3040-\u30FF]*$`, "i");
-	const filtered = datalist.filter((d) => reg.test(d.word));
+	const filtered = wordlist?.filter((w) => reg.test(w.hiragana)) as Word[];
 
 	const [searchStatus, setSearchStatus] = useState<
 		"unsearched" | "searching" | "resolved"

@@ -5,8 +5,10 @@ interface AboutProps {}
 
 const About: FC<AboutProps> = () => {
 	return (
-		<div className="mt-4 px-2">
-			<BackLink />
+		<>
+			<div className="flex flex-row items-center place-content-between">
+				<BackLink />
+			</div>
 			<article className="px-8 my-12">
 				<h1 className="font-serif font-bold text-4xl text-fuchsia-800 dark:text-fuchsia-400">
 					About
@@ -41,7 +43,7 @@ const About: FC<AboutProps> = () => {
 					</p>
 				</div>
 			</article>
-		</div>
+		</>
 	);
 };
 

@@ -3,7 +3,7 @@ import KanaBoard from "./kanaBoard";
 import SearchBarIcon from "./searchBarIcon";
 import SearchBarInput from "./searchBarInput";
 import { kanas } from "../utils/kanas";
-import { Word } from "../services/words";
+import { Word } from "./search";
 import { useState, useEffect, useRef, FC } from "react";
 
 interface SearchBarProps {
@@ -98,11 +98,11 @@ const SearchBar: FC<SearchBarProps> = ({
 	// filter valid kana buttons
 
 	const validKanaButtons: string[] = filtered.map(
-		(f) => f.word.split("")[inputData.length]
+		(f) => f.hiragana.split("")[inputData.length]
 	);
 
 	return (
-		<section className="flex mt-6 px-3 justify-center font-serif">
+		<section className="flex p-2 justify-center font-serif">
 			<div className="flex flex-1">
 				<div
 					className="relative w-full"

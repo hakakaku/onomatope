@@ -7,7 +7,7 @@ const BackLink: FC<BackLinkProps> = () => {
 	return (
 		<Link
 			to="/"
-			className="py-2 font-sans font-bold text-lg text-cyan-600 hover:text-fuchsia-700 hover:underline hover:underline-offset-4 hover:decoration-wavy"
+			className="py-1 font-sans font-bold text-lg text-cyan-700 dark:text-cyan-400 hover:text-fuchsia-700 dark:hover:text-fuchsia-400 hover:underline hover:underline-offset-4 hover:decoration-wavy"
 		>
 			＜＜検索に戻る
 		</Link>

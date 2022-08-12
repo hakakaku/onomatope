@@ -5,6 +5,8 @@ import "./index.css";
 import App from "./App";
 import Search from "./components/search";
 import About from "./components/about";
+import Login from "./components/login";
+import NotFound from "./components/notFound";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Result from "./components/result";
@@ -12,15 +14,19 @@ import Result from "./components/result";
 const root = ReactDOM.createRoot(
 	document.getElementById("root") as HTMLElement
 );
+
 root.render(
 	<React.StrictMode>
 		<BrowserRouter>
 			<Routes>
 				<Route path="/" element={<App />}>
+					<Route path="/" element={<Navigate to="search" replace />} />
 					<Route path="search" element={<Search />} />
 					<Route path="search/:romaji" element={<Result />} />
 					<Route path="about" element={<About />} />
-					<Route path="/" element={<Navigate to="search" replace />} />
+					<Route path="login" element={<Login />} />
+					<Route path="/404" element={<NotFound />} />
+					<Route path="*" element={<Navigate to="/404" replace />} />
 				</Route>
 			</Routes>
 		</BrowserRouter>
