@@ -3,9 +3,9 @@ import SearchBar from "./searchBar";
 import ResultList from "./resultList";
 import { words } from "../services/words";
 
-interface MainProps {}
+interface SearchPops {}
 
-const Main: FC<MainProps> = () => {
+const Search: FC<SearchPops> = () => {
 	// filter datalist with input.
 	const [inputData, setInputData] = useState<string[]>([]);
 	const datalist = words; // TODO: get data from server.
@@ -38,4 +38,4 @@ const Main: FC<MainProps> = () => {
 	);
 };
 
-export default Main;
+export default Search;

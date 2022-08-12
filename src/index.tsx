@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import "the-new-css-reset";
 import "./index.css";
 import App from "./App";
-import Main from "./components/main";
+import Search from "./components/search";
 import About from "./components/about";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
@@ -17,7 +17,7 @@ root.render(
 		<BrowserRouter>
 			<Routes>
 				<Route path="/" element={<App />}>
-					<Route path="search" element={<Main />} />
+					<Route path="search" element={<Search />} />
 					<Route path="search/:romaji" element={<Result />} />
 					<Route path="about" element={<About />} />
 					<Route path="/" element={<Navigate to="search" replace />} />
