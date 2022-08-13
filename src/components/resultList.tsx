@@ -34,7 +34,9 @@ const ResultList: FC<ResultListProps> = ({ filtered, searchStatus }) => {
 					</ul>
 				) : (
 					<div className="my-20 text-center px-8">
-						<p className="font-sans">読み込み中...</p>
+						<p className="font-sans font-light dark:text-slate-300">
+							読み込み中...
+						</p>
 					</div>
 				)}
 			</section>

@@ -14,11 +14,15 @@ const Login: FC<LoginProps> = () => {
 	// set user authentication method.
 	const { isAuth, setIsAuth } = useIsAuth();
 	const signInWithGoogle = () => {
-		signInWithPopup(auth, provider).then((result) => {
-			localStorage.setItem("isAuth", JSON.stringify(true));
-			setIsAuth(true);
-			navigate("/");
-		});
+		signInWithPopup(auth, provider)
+			.then((result) => {
+				localStorage.setItem("isAuth", JSON.stringify(true));
+				setIsAuth(true);
+				navigate("/");
+			})
+			.catch((error) => {
+				alert(error.message);
+			});
 	};
 	const signUserOut = () => {
 		signOut(auth).then(() => {
