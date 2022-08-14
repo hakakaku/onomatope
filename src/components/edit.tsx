@@ -1,6 +1,7 @@
 import { FC, useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { doc, setDoc, addDoc, collection } from "firebase/firestore";
+import { toRomaji } from "wanakana";
 import { WordData } from "./result";
 import BackLink from "./backLink";
 import EditArticle from "./editArticle";
@@ -56,7 +57,8 @@ const Edit: FC<EditProps> = () => {
 					const wordsRef = doc(db, "words", data.id);
 					await setDoc(wordsRef, data);
 				} else {
-					// if id doesn't exist, add data to new firebase doc.
+					// if id doesn't exist, generate romaji, and add data to new firebase doc.
+					data.romaji = toRomaji(data.hiragana);
 					const wordsRef = collection(db, "words");
 					await addDoc(wordsRef, data);
 				}
