@@ -1,6 +1,6 @@
 import { FC, useEffect } from "react";
 import { useIsAuth } from "../App";
-import { auth, provider } from "../firebase.config";
+import { auth, provider } from "../services/firebase.config";
 import { signInWithPopup, signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import BackLink from "./backLink";

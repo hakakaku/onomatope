@@ -9,8 +9,6 @@ type ContextType = {
 };
 
 const App: FC = () => {
-	// TODO: build the edit page.
-
 	// toggle light and dark theme.
 	const [isThemeDark, setIsThemeDark] = useState<boolean>(false);
 	const handleChangeTheme = () => {

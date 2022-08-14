@@ -1,14 +1,13 @@
 import { FC, useState, useEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { getDocs, collection, query, where } from "firebase/firestore";
-import { db } from "../firebase.config";
 import BackLink from "./backLink";
 import ResultArticle from "./resultArticle";
+import { useGetWords } from "../services/useGetWords";
 
 interface ResultProps {}
 
-export interface Word {
-	id: string;
+export interface WordData {
+	id?: string;
 	romaji: string;
 	hiragana: string;
 	meaning: string;
@@ -16,48 +15,38 @@ export interface Word {
 }
 
 const Result: FC<ResultProps> = () => {
-	const { romaji } = useParams();
+	const { romaji } = useParams() as { romaji: string };
 	const navigate = useNavigate();
-	const [words, setWords] = useState<Word[]>([]);
-	const [currentWord, setCurrentWord] = useState<Word>();
+
+	// query data from firebase.
+	const { dataList: getDataList, isDataLoading } = useGetWords(romaji);
+	const [dataList, setDataList] = useState<WordData[]>();
 
 	useEffect(() => {
-		// query data from firebase.
-		const getWords = async () => {
-			const wordsCollectionRef = collection(db, "words");
-			const q = query(wordsCollectionRef, where("romaji", "==", romaji));
-			const data = await getDocs(q);
-			const currentWords = data.docs.map((doc) => ({
-				...doc.data(),
-				id: doc.id,
-			})) as Word[];
-			if (currentWords.length > 0) {
-				setWords(currentWords);
-				setCurrentWord(currentWords[0]);
-			} else {
+		if (typeof getDataList !== "undefined") {
+			if (!isDataLoading && getDataList?.length === 0) {
 				navigate("/404", { replace: true });
+			} else {
+				setDataList(getDataList);
 			}
-		};
-		getWords();
-	}, [romaji, navigate]);
+		}
+	}, [navigate, getDataList, isDataLoading]);
 
 	return (
 		<>
 			<div className="flex flex-row items-center place-content-between">
 				<BackLink />
-				{currentWord && (
-					<Link
-						to={`/edit/${romaji}`}
-						className="py-1 font-sans font-bold text-lg text-cyan-700 dark:text-cyan-400 hover:text-fuchsia-700 dark:hover:text-fuchsia-400 hover:underline hover:underline-offset-4 hover:decoration-wavy"
-					>
-						編集
-					</Link>
-				)}
+				<Link
+					to={`/edit/${romaji}`}
+					className="py-1 font-sans font-bold text-lg text-cyan-700 dark:text-cyan-400 hover:text-fuchsia-700 dark:hover:text-fuchsia-400 hover:underline hover:underline-offset-4 hover:decoration-wavy"
+				>
+					編集
+				</Link>
 			</div>
-			{currentWord ? (
-				<ResultArticle currentWord={currentWord} words={words} />
-			) : (
+			{isDataLoading || !dataList ? (
 				<div className="h-screen"></div>
+			) : (
+				<ResultArticle resultWordList={dataList} />
 			)}
 		</>
 	);

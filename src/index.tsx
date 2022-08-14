@@ -1,6 +1,5 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import "the-new-css-reset";
 import "./index.css";
 import App from "./App";
 import Search from "./components/search";
@@ -10,6 +9,7 @@ import NotFound from "./components/notFound";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Result from "./components/result";
+import Edit from "./components/edit";
 
 const root = ReactDOM.createRoot(
 	document.getElementById("root") as HTMLElement
@@ -23,6 +23,8 @@ root.render(
 					<Route path="/" element={<Navigate to="search" replace />} />
 					<Route path="search" element={<Search />} />
 					<Route path="search/:romaji" element={<Result />} />
+					<Route path="edit" element={<Edit />} />
+					<Route path="edit/:romaji" element={<Edit />} />
 					<Route path="about" element={<About />} />
 					<Route path="login" element={<Login />} />
 					<Route path="/404" element={<NotFound />} />

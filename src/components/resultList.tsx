@@ -26,7 +26,7 @@ const ResultList: FC<ResultListProps> = ({ filtered, searchStatus }) => {
 									</div>
 									<div className="max-h-16 mx-auto px-2 text-black dark:text-cyan-300 font-serif font-light text-sm text-left leading-relaxed line-clamp-2">
 										<span>【例】</span>
-										これも次第もうその始末学というののうちをしでしょた。じっと今にまごまご方は最もその学習なくだろだけにしていますをもお話しませませば、そうにも漬けないないだろで。
+										{word.meaning}
 									</div>
 								</li>
 							</Link>

@@ -2,7 +2,7 @@ import { FC, useState, useEffect } from "react";
 import SearchBar from "./searchBar";
 import ResultList from "./resultList";
 import { collection, getDocs } from "firebase/firestore";
-import { db } from "../firebase.config";
+import { db } from "../services/firebase.config";
 
 interface SearchPops {}
 

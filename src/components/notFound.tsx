@@ -9,7 +9,7 @@ const NotFound: FC<NotFoundProps> = () => {
 			<div className="flex flex-row items-center place-content-between">
 				<BackLink />
 			</div>
-			<div className="mt-3 text-center px-8">
+			<div className="mt-3 text-center px-8 text-slate-800 dark:text-slate-200">
 				<h1 className="font-sans font-extrabold text-4xl py-5">404</h1>
 				<p className="font-sans text-xl">
 					お探しのページは見つかりませんでした。
