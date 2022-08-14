@@ -9,6 +9,8 @@ type ContextType = {
 };
 
 const App: FC = () => {
+	// TODO: use Joi to validate input data.
+
 	// toggle light and dark theme.
 	const [isThemeDark, setIsThemeDark] = useState<boolean>(false);
 	const handleChangeTheme = () => {
@@ -25,6 +27,12 @@ const App: FC = () => {
 
 	// set authentication status
 	const [isAuth, setIsAuth] = useState<boolean>(false);
+
+	// Use localStorage to update login status.
+	useEffect(() => {
+		const currentIsAuth = JSON.parse(localStorage.getItem("isAuth") || '""');
+		setIsAuth(currentIsAuth);
+	}, [setIsAuth]);
 
 	return (
 		<>

@@ -11,6 +11,7 @@ interface EditProps {}
 
 const Edit: FC<EditProps> = () => {
 	const { romaji } = useParams() as { romaji: string | undefined };
+
 	const navigate = useNavigate();
 
 	// query data from firebase.
@@ -19,7 +20,9 @@ const Edit: FC<EditProps> = () => {
 	const [dataList, setDataList] = useState<WordData[]>();
 
 	useEffect(() => {
-		if (typeof getDataList !== "undefined") {
+		if (!JSON.parse(localStorage.getItem("isAuth") || '""')) {
+			navigate("/login");
+		} else if (typeof getDataList !== "undefined") {
 			// if data don't exist, navigate to 404.
 			if (!isDataLoading && getDataList?.length === 0) {
 				navigate("/404", { replace: true });
